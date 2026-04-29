@@ -35,13 +35,18 @@ function createBodyCheckForm() {
     .setChoiceValues(['📌 写真がサロン内で公開されることに同意します'])
     .setRequired(true);
 
-  // ④ 写真アップロード
-  form.addFileUploadItem()
+  // ④ 写真アップロード（addFileUploadItem はGAS制限のため手動追加が必要）
+  // ★ フォーム作成後に手動で「ファイルのアップロード」欄を追加してください
+  form.addSectionHeaderItem()
     .setTitle('④ 体の写真をアップロードしてください📸')
-    .setHelpText('顔が写らないようにご注意ください｜JPG / PNG｜最大10MB\n✨ 正面・横・後ろの3枚があると◎')
-    .setAllowedFileTypes([FormApp.FileType.IMAGE])
-    .setMaxFileSize(10)
-    .setRequired(true);
+    .setHelpText(
+      '⚠️ この欄はスクリプトで自動生成できないため、フォーム作成後に手動で追加してください。\n\n' +
+      '【追加手順】\n' +
+      '1. 生成されたフォームを編集画面で開く\n' +
+      '2. ＋ボタン →「ファイルのアップロード」を選択\n' +
+      '3. 許可するファイルの種類：画像、最大10MBに設定\n' +
+      '4. 必須をONにする'
+    );
 
   // ⑤ 気になる部位
   form.addParagraphTextItem()
