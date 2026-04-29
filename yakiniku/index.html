@@ -66,18 +66,23 @@
       text-align: center;
       position: relative;
       overflow: hidden;
-      background:
-        radial-gradient(ellipse at 60% 40%, rgba(184,150,110,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 20% 80%, rgba(184,150,110,0.05) 0%, transparent 50%),
-        var(--dark);
     }
     .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23b8966e' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-image: url('https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.35);
     }
-    .hero-inner { position: relative; z-index: 1; }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(15,13,11,0.4) 0%, rgba(15,13,11,0.2) 50%, rgba(15,13,11,0.7) 100%);
+    }
+    .hero-inner { position: relative; z-index: 2; }
     .hero-en {
       font-size: 11px;
       letter-spacing: 0.6em;
@@ -158,33 +163,24 @@
       position: relative;
       height: 480px;
       border: 1px solid rgba(184,150,110,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       overflow: hidden;
     }
-    .concept-visual::before {
-      content: '';
-      position: absolute;
-      inset: 12px;
-      border: 1px solid rgba(184,150,110,0.1);
+    .concept-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.8) sepia(0.2);
+      transition: transform 0.8s ease;
     }
-    .concept-visual .fire {
-      font-size: 80px;
-      filter: drop-shadow(0 0 30px rgba(255,150,50,0.4));
-      animation: flicker 3s ease-in-out infinite;
-    }
-    @keyframes flicker {
-      0%, 100% { transform: scale(1) rotate(-2deg); filter: drop-shadow(0 0 30px rgba(255,150,50,0.4)); }
-      33% { transform: scale(1.05) rotate(1deg); filter: drop-shadow(0 0 50px rgba(255,150,50,0.6)); }
-      66% { transform: scale(0.97) rotate(-1deg); filter: drop-shadow(0 0 20px rgba(255,150,50,0.3)); }
-    }
+    .concept-visual:hover img { transform: scale(1.04); }
     .concept-visual .corner {
       position: absolute;
       width: 20px; height: 20px;
       border-color: var(--gold);
       border-style: solid;
-      opacity: 0.5;
+      opacity: 0.7;
+      z-index: 1;
     }
     .corner.tl { top: 6px; left: 6px; border-width: 1px 0 0 1px; }
     .corner.tr { top: 6px; right: 6px; border-width: 1px 1px 0 0; }
@@ -202,11 +198,25 @@
     }
     .menu-item {
       background: var(--warm);
-      padding: 40px 32px;
       transition: background 0.3s;
       cursor: default;
+      overflow: hidden;
     }
     .menu-item:hover { background: #332e29; }
+    .menu-item .thumb {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.85) sepia(0.15);
+      transition: transform 0.6s ease, filter 0.4s;
+    }
+    .menu-item:hover .thumb { transform: scale(1.05); filter: brightness(0.95) sepia(0.1); }
+    .menu-item .thumb-wrap {
+      overflow: hidden;
+      height: 200px;
+    }
+    .menu-item .content { padding: 28px 28px 32px; }
     .menu-item .category {
       font-size: 10px;
       letter-spacing: 0.4em;
@@ -433,7 +443,7 @@
         <div class="corner tr"></div>
         <div class="corner bl"></div>
         <div class="corner br"></div>
-        <div class="fire">🔥</div>
+        <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=800&q=80" alt="和牛の霜降り" loading="lazy" />
       </div>
     </div>
   </section>
@@ -446,45 +456,63 @@
       <div class="menu-grid">
 
         <div class="menu-item">
-          <p class="category">PREMIUM</p>
-          <h3>特選シャトーブリアン</h3>
-          <p class="desc">A5ランク黒毛和牛のテンダーロイン芯。希少部位ならではのきめ細かな霜降りと、とろけるような食感。</p>
-          <p class="price">7,800<span>円〜（100g）</span></p>
+          <div class="thumb-wrap"><img class="thumb" src="https://images.unsplash.com/photo-1558030006-450675393462?w=600&q=80" alt="シャトーブリアン" loading="lazy" /></div>
+          <div class="content">
+            <p class="category">PREMIUM</p>
+            <h3>特選シャトーブリアン</h3>
+            <p class="desc">A5ランク黒毛和牛のテンダーロイン芯。希少部位ならではのきめ細かな霜降りと、とろけるような食感。</p>
+            <p class="price">7,800<span>円〜（100g）</span></p>
+          </div>
         </div>
 
         <div class="menu-item">
-          <p class="category">SIGNATURE</p>
-          <h3>厚切りタン塩</h3>
-          <p class="desc">国産黒毛和牛の舌元のみを使用。独自の熟成技法で引き出した旨みと、絶妙な厚みが自慢の一皿。</p>
-          <p class="price">3,200<span>円〜（一人前）</span></p>
+          <div class="thumb-wrap"><img class="thumb" src="https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80" alt="厚切りタン塩" loading="lazy" /></div>
+          <div class="content">
+            <p class="category">SIGNATURE</p>
+            <h3>厚切りタン塩</h3>
+            <p class="desc">国産黒毛和牛の舌元のみを使用。独自の熟成技法で引き出した旨みと、絶妙な厚みが自慢の一皿。</p>
+            <p class="price">3,200<span>円〜（一人前）</span></p>
+          </div>
         </div>
 
         <div class="menu-item">
-          <p class="category">WAGYU</p>
-          <h3>ざぶとんカルビ</h3>
-          <p class="desc">肩ロースから取れる希少なカルビ。豊かな脂の甘みと赤身の旨みが炭火で昇華される。</p>
-          <p class="price">4,500<span>円〜（一人前）</span></p>
+          <div class="thumb-wrap"><img class="thumb" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80" alt="ざぶとんカルビ" loading="lazy" /></div>
+          <div class="content">
+            <p class="category">WAGYU</p>
+            <h3>ざぶとんカルビ</h3>
+            <p class="desc">肩ロースから取れる希少なカルビ。豊かな脂の甘みと赤身の旨みが炭火で昇華される。</p>
+            <p class="price">4,500<span>円〜（一人前）</span></p>
+          </div>
         </div>
 
         <div class="menu-item">
-          <p class="category">SEASONAL</p>
-          <h3>本日の希少部位</h3>
-          <p class="desc">その日に仕入れた一頭買いの和牛から、その日だけの希少部位をご用意。内容はスタッフまで。</p>
-          <p class="price">時価</p>
+          <div class="thumb-wrap"><img class="thumb" src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&q=80" alt="希少部位" loading="lazy" /></div>
+          <div class="content">
+            <p class="category">SEASONAL</p>
+            <h3>本日の希少部位</h3>
+            <p class="desc">その日に仕入れた一頭買いの和牛から、その日だけの希少部位をご用意。内容はスタッフまで。</p>
+            <p class="price">時価</p>
+          </div>
         </div>
 
         <div class="menu-item">
-          <p class="category">SIDE</p>
-          <h3>燦の冷麺</h3>
-          <p class="desc">牛骨と野菜を12時間煮込んだ自家製スープ。さっぱりとした酸味が肉の合間に心地よい。</p>
-          <p class="price">1,200<span>円</span></p>
+          <div class="thumb-wrap"><img class="thumb" src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=80" alt="冷麺" loading="lazy" /></div>
+          <div class="content">
+            <p class="category">SIDE</p>
+            <h3>燦の冷麺</h3>
+            <p class="desc">牛骨と野菜を12時間煮込んだ自家製スープ。さっぱりとした酸味が肉の合間に心地よい。</p>
+            <p class="price">1,200<span>円</span></p>
+          </div>
         </div>
 
         <div class="menu-item">
-          <p class="category">DESSERT</p>
-          <h3>わらび餅 × 黒蜜</h3>
-          <p class="desc">締めくくりは和の甘み。なめらかなわらび餅に濃厚な黒蜜ときな粉を合わせた逸品。</p>
-          <p class="price">800<span>円</span></p>
+          <div class="thumb-wrap"><img class="thumb" src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80" alt="わらび餅" loading="lazy" /></div>
+          <div class="content">
+            <p class="category">DESSERT</p>
+            <h3>わらび餅 × 黒蜜</h3>
+            <p class="desc">締めくくりは和の甘み。なめらかなわらび餅に濃厚な黒蜜ときな粉を合わせた逸品。</p>
+            <p class="price">800<span>円</span></p>
+          </div>
         </div>
 
       </div>
