@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>【お体チェック】体の写真送付フォーム</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: linear-gradient(135deg, #fff0f6 0%, #ffe4f0 50%, #ffd6e7 100%);
+      min-height: 100vh;
+      padding: 32px 16px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(255, 100, 160, 0.15);
+      max-width: 680px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    /* ヘッダー */
+    .header {
+      background: linear-gradient(135deg, #ff6fa8 0%, #ff9dcb 100%);
+      padding: 36px 32px 28px;
+      text-align: center;
+      position: relative;
+    }
+    .header::before {
+      content: '✨';
+      font-size: 28px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .header h1 {
+      color: #fff;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+    .header .sub {
+      color: rgba(255,255,255,0.9);
+      font-size: 13px;
+      margin-top: 8px;
+      letter-spacing: 0.06em;
+    }
+
+    /* バナー帯 */
+    .ribbon {
+      background: linear-gradient(90deg, #ff4f96 0%, #ff85be 50%, #ff4f96 100%);
+      color: #fff;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px;
+      letter-spacing: 0.12em;
+    }
+
+    /* 本文エリア */
+    .body {
+      padding: 28px 28px 40px;
+    }
+
+    /* 冒頭説明 */
+    .intro {
+      background: linear-gradient(135deg, #fff0f8, #ffe8f4);
+      border-left: 4px solid #ff6fa8;
+      border-radius: 12px;
+      padding: 20px 22px;
+      margin-bottom: 28px;
+      font-size: 14px;
+      line-height: 1.9;
+      color: #555;
+    }
+    .intro .lead {
+      font-size: 15px;
+      font-weight: 700;
+      color: #e03a7a;
+      margin-bottom: 10px;
+    }
+
+    /* 注意書きボックス */
+    .notice {
+      background: #fff8e1;
+      border: 1.5px dashed #ffb74d;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      line-height: 1.85;
+      color: #7a5c00;
+    }
+    .notice .notice-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+      color: #e65100;
+    }
+
+    /* 質問カード */
+    .question {
+      margin-bottom: 22px;
+    }
+    .question-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .q-num {
+      background: linear-gradient(135deg, #ff6fa8, #ff9dcb);
+      color: #fff;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+    .q-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: #333;
+      line-height: 1.5;
+    }
+    .q-text .required {
+      display: inline-block;
+      background: #ff4f96;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .q-text .optional {
+      display: inline-block;
+      background: #e0e0e0;
+      color: #777;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .q-hint {
+      font-size: 12px;
+      color: #aaa;
+      margin-left: 38px;
+      margin-bottom: 8px;
+    }
+
+    /* 入力UI（見た目だけ） */
+    .input-text {
+      width: 100%;
+      border: 2px solid #f0d4e4;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: #bbb;
+      background: #fafafa;
+      margin-left: 0;
+    }
+    .input-textarea {
+      width: 100%;
+      border: 2px solid #f0d4e4;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 14px;
+      color: #bbb;
+      background: #fafafa;
+      height: 100px;
+      resize: none;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-left: 38px;
+    }
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff0f6;
+      border: 2px solid #f9c4d9;
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #444;
+    }
+    .radio-item .dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #ff6fa8;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #fff8e1;
+      border: 2px solid #ffe082;
+      border-radius: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      color: #555;
+      margin-left: 38px;
+    }
+    .checkbox-item .box {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 2px solid #ffb74d;
+      display: inline-block;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ファイルアップロードエリア */
+    .upload-area {
+      border: 2.5px dashed #ff9dcb;
+      border-radius: 14px;
+      background: #fff4f9;
+      padding: 26px 20px;
+      text-align: center;
+      margin-left: 38px;
+    }
+    .upload-area .upload-icon { font-size: 36px; margin-bottom: 8px; }
+    .upload-area p { font-size: 13px; color: #999; margin-top: 4px; }
+
+    /* 区切り線 */
+    .divider {
+      border: none;
+      border-top: 1.5px dashed #f9c4d9;
+      margin: 24px 0;
+    }
+
+    /* 送信ボタン */
+    .submit-btn {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #ff6fa8 0%, #ff9dcb 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      padding: 16px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      box-shadow: 0 4px 20px rgba(255, 111, 168, 0.4);
+      margin-top: 10px;
+    }
+
+    /* フッター */
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #ccc;
+      padding: 20px;
+      background: #fafafa;
+      border-top: 1px solid #f0e0ea;
+    }
+
+    /* 手順ガイド（別カード） */
+    .guide-card {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(255, 100, 160, 0.10);
+      max-width: 680px;
+      margin: 28px auto 0;
+      padding: 28px;
+    }
+    .guide-card h2 {
+      font-size: 16px;
+      font-weight: 800;
+      color: #e03a7a;
+      margin-bottom: 16px;
+    }
+    .step-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: #444;
+      line-height: 1.6;
+    }
+    .step-num {
+      background: linear-gradient(135deg, #ff6fa8, #ff9dcb);
+      color: #fff;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      min-width: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== メインフォームカード ===== -->
+  <div class="card">
+
+    <!-- ヘッダー -->
+    <div class="header">
+      <h1>お体チェック✨<br>体の写真送付フォーム</h1>
+      <p class="sub">西田美華 オンラインサロン会員様限定</p>
+    </div>
+
+    <div class="ribbon">♡ あなたの変化を一緒に応援します ♡</div>
+
+    <div class="body">
+
+      <!-- 冒頭説明 -->
+      <div class="intro">
+        <p class="lead">📸 ようこそ！お体チェックへ</p>
+        <p>このフォームは、<strong>西田美華オンラインサロン会員様限定</strong>のお体チェックフォームです。<br>
+        あなたの今の状態をしっかり確認して、<strong>もっとキレイになれるデザイン画像</strong>をお届けします！<br><br>
+        送ってくれるだけで OK🙌<br>
+        一緒に理想のカラダを目指しましょう💕</p>
+      </div>
+
+      <!-- 注意書き -->
+      <div class="notice">
+        <p class="notice-title">⚠️ 写真の取り扱いについて（必ずご確認ください）</p>
+        <ul style="padding-left: 16px;">
+          <li>ご送付いただいた写真は、体のチェック結果をお届けするデザイン画像に使用します</li>
+          <li>作成した画像は<strong>サロン内で公開される場合があります</strong></li>
+          <li>顔・個人情報が特定される情報は<strong>写らないようにご注意ください</strong></li>
+        </ul>
+      </div>
+
+      <!-- ① お名前 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">1</div>
+          <div class="q-text">お名前（サロン内のお名前でOK）<span class="required">必須</span></div>
+        </div>
+        <div class="q-hint">ニックネームでも大丈夫です</div>
+        <input class="input-text" type="text" placeholder="例）みかちゃん、田中さくら" readonly />
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ② 所属サロン -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">2</div>
+          <div class="q-text">ご所属サロン<span class="required">必須</span></div>
+        </div>
+        <div class="radio-group">
+          <label class="radio-item">
+            <span class="dot"></span>
+            🌸 Bloom
+          </label>
+          <label class="radio-item">
+            <span class="dot"></span>
+            🌷 Bliss
+          </label>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ③ 同意確認 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">3</div>
+          <div class="q-text">写真の公開に関する同意<span class="required">必須</span></div>
+        </div>
+        <label class="checkbox-item">
+          <span class="box"></span>
+          <span>📌 写真がサロン内で公開されることに同意します。<br>
+          <span style="font-size:12px;color:#999;">※ご同意いただけない場合は、フォームをご利用いただけません</span></span>
+        </label>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ④ 写真アップロード -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">4</div>
+          <div class="q-text">体の写真をアップロードしてください📸<span class="required">必須</span></div>
+        </div>
+        <div class="q-hint">顔が写らないようにご注意ください｜JPG / PNG｜最大 10MB</div>
+        <div class="upload-area">
+          <div class="upload-icon">📂</div>
+          <strong style="color:#ff6fa8;font-size:15px;">ここに写真をドロップ</strong>
+          <p>または「ファイルを追加」ボタンをクリック</p>
+          <p style="margin-top:10px;color:#ff9dcb;font-size:12px;">✨ 正面・横・後ろの3枚があると◎</p>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ⑤ 気になる部位 -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">5</div>
+          <div class="q-text">気になっている部位・お悩みを教えてください<span class="required">必須</span></div>
+        </div>
+        <div class="q-hint">例）お腹まわり・二の腕・脚のむくみ、など</div>
+        <textarea class="input-textarea" placeholder="気になる部位やお悩みを自由に書いてください&#10;例）産後からお腹がなかなか戻らなくて悩んでいます…" readonly></textarea>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- ⑥ 一言メッセージ -->
+      <div class="question">
+        <div class="question-label">
+          <div class="q-num">6</div>
+          <div class="q-text">美華さんへ一言メッセージ💌<span class="optional">任意</span></div>
+        </div>
+        <div class="q-hint">なんでも気軽に書いてね🩷</div>
+        <textarea class="input-textarea" placeholder="例）いつも応援してます！一緒にがんばります♡" readonly></textarea>
+      </div>
+
+      <!-- 送信ボタン -->
+      <button class="submit-btn">✨ 送信する ✨</button>
+
+    </div><!-- /body -->
+
+    <div class="footer">
+      このフォームはコピペ用テンプレートです。Googleフォームで作成してください。
+    </div>
+
+  </div><!-- /card -->
+
+
+  <!-- ===== Googleフォーム作成手順カード ===== -->
+  <div class="guide-card">
+    <h2>📋 Googleフォーム作成手順</h2>
+    <ul class="step-list">
+      <li class="step-item">
+        <div class="step-num">1</div>
+        <span><a href="https://forms.google.com" target="_blank" style="color:#ff6fa8;">forms.google.com</a> を開いて「＋新しいフォームを作成」</span>
+      </li>
+      <li class="step-item">
+        <div class="step-num">2</div>
+        <span>タイトルに <strong>「【お体チェック】体の写真送付フォーム」</strong> を入力</span>
+      </li>
+      <li class="step-item">
+        <div class="step-num">3</div>
+        <span>フォームの「色」アイコンからテーマカラーを <strong>ピンク系</strong> に設定</span>
+      </li>
+      <li class="step-item">
+        <div class="step-num">4</div>
+        <span>上記テンプレートの①〜⑥を順番に追加。<br>④のアップロード欄は「ファイルのアップロード」を選択して最大10MBに設定</span>
+      </li>
+      <li class="step-item">
+        <div class="step-num">5</div>
+        <span>設定（歯車）→「回答」タブで <strong>メールアドレス収集</strong> のON/OFFを確認</span>
+      </li>
+      <li class="step-item">
+        <div class="step-num">6</div>
+        <span>「送信」→リンクをコピーしてサロンにシェア🎉</span>
+      </li>
+    </ul>
+  </div>
+
+</body>
+</html>
