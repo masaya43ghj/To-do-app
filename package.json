@@ -1,0 +1,17 @@
+{
+  "name": "to-do-app",
+  "version": "0.1.0",
+  "description": "チームで使えるTo-doアプリ（役割ベースの権限管理 + Googleカレンダー連携）",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.0.0"
+  }
+}
